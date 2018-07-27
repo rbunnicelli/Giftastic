@@ -1,40 +1,65 @@
-var topics = ["Mario", "Luigi", "DK", "Bowser", "Yoshi", "Toad"];
+$(document).ready(function() {
+var topics = ["Pikachu", "Gyarados", "Mewtwo", "Dragonite", "Zapdos", "Blastoise"];
 
 //Function that loops through the topics array and adds a button with name of each index in topics
 function buttonLoop() {
+    $("#buttons").empty();
     for (i = 0; i < topics.length; i++) {
-        $("#buttons").append("<button>" + topics[i] + "</button>");
+        var buttonMaker = $("<button>");
+        buttonMaker.html(topics[i]);
+        buttonMaker.val(topics[i])
+        buttonMaker.attr("id", topics[i]);
+        buttonMaker.attr("type", "button")
+        $("#buttons").append(buttonMaker);
     }
 }
-buttonLoop();
+
+//when the submit button is clicked, captures user input and makes button with that value
 $("#submitBtn").on("click", function(event) {
     event.preventDefault();
     var newButton = $("#userInput").val().trim();
-    topics.push(newButton);
-    $("#buttons").empty();
+    var upperCaseFirst = newButton.charAt(0).toUpperCase() + newButton.slice(1);
+    topics.push(upperCaseFirst);
     buttonLoop();
 });
 
-/*$("button").on("click", function() {
+buttonLoop();
 
-var character = $(this).attr(topics[i]);
+//queryURL to access giphy api
+$("button").on("click", function() {
 
-var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + character + "3dgOSzYiKVKWV3BtmV3wUmy9tRxumPjv";
+var character = $(this).attr("id");
+console.log(character);
+var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + character + "&api_key=3dgOSzYiKVKWV3BtmV3wUmy9tRxumPjv&limit=10";
 
+//ajax call to create div and p for gif and rating tag
 $.ajax({
     url: queryURL,
     method: "GET"
-})
-
-    .then(function(response) {
-        var results = response.data;
+}).then(function(response) {
+    
+        var results = response.data
 
         for (var i = 0; i < results.length; i++) {
             var topicsDiv = $("<div>");
             var ratingTag = $("<p>").text("Rating: " + results[i].rating);
             var topicsImage = $("<img>");
+            topicsImage.addClass("gif");
+            topicsImage.attr("src", results[i].images.fixed_height.url);
             topicsDiv.append(ratingTag);
             topicsDiv.append(topicsImage);
+            $("#gifsHere").prepend(topicsDiv);
         }
     });
-});*/
+    $(".gif").on("click", function() {
+        var state = $(this).attr("data-state");
+            if (state === "still") {
+                $(this).attr("src", $(this).attr("data-animate"));
+                $(this).attr("data-state", "animate");
+            } else {
+                $(this).attr("src", $(this).attr("data-still"));
+                $(this).attr("data-state", "still");
+             }
+        });
+    });
+});
