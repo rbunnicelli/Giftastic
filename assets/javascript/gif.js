@@ -7,9 +7,10 @@ function buttonLoop() {
     for (i = 0; i < topics.length; i++) {
         var buttonMaker = $("<button>");
         buttonMaker.html(topics[i]);
-        buttonMaker.val(topics[i])
+        buttonMaker.val(topics[i]);
+        buttonMaker.attr("class", "buttonClass");
         buttonMaker.attr("id", topics[i]);
-        buttonMaker.attr("type", "button")
+        buttonMaker.attr("type", "button");
         $("#buttons").append(buttonMaker);
     }
 }
@@ -26,7 +27,7 @@ $("#submitBtn").on("click", function(event) {
 buttonLoop();
 
 //queryURL to access giphy api
-$("button").on("click", function() {
+$(document).on('click', ".buttonClass", function() {
 
 var character = $(this).attr("id");
 console.log(character);
@@ -51,15 +52,5 @@ $.ajax({
             $("#gifsHere").prepend(topicsDiv);
         }
     });
-    $(".gif").on("click", function() {
-        var state = $(this).attr("data-state");
-            if (state === "still") {
-                $(this).attr("src", $(this).attr("data-animate"));
-                $(this).attr("data-state", "animate");
-            } else {
-                $(this).attr("src", $(this).attr("data-still"));
-                $(this).attr("data-state", "still");
-             }
-        });
-    });
+});
 });
