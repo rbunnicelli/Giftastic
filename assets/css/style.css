@@ -24,9 +24,19 @@ button {
     height: 35px;
     margin: 10px;
     color: white;
-    background-color: red; 
+    background-color: black; 
 }
 
 .input-label {
     margin: 5px;
+}
+
+p {
+    font-size: 20px;
+    margin: 5px;
+    font-weight: bold;
+}
+
+label {
+    font-size: 20px;
 }

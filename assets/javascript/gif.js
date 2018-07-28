@@ -26,6 +26,17 @@ $("#submitBtn").on("click", function(event) {
 
 buttonLoop();
 
+$(document).on('click', ".gif", function() {
+    var state = $(this).attr("data-state");
+        if (state === "still") {
+            $(this).attr("src", $(this).attr("data-animate"));
+            $(this).attr("data-state", "animate");
+        } else {
+            $(this).attr("src", $(this).attr("data-still"));
+            $(this).attr("data-state", "still");
+            }
+});
+
 //queryURL to access giphy api
 $(document).on('click', ".buttonClass", function() {
 
@@ -45,8 +56,13 @@ $.ajax({
             var topicsDiv = $("<div>");
             var ratingTag = $("<p>").text("Rating: " + results[i].rating);
             var topicsImage = $("<img>");
+            var still = results[i].images.fixed_height_still.url;
+            var animate = results[i].images.fixed_height.url;
             topicsImage.addClass("gif");
-            topicsImage.attr("src", results[i].images.fixed_height.url);
+            topicsImage.attr("data-animate", animate);
+            topicsImage.attr("data-still", still);
+            topicsImage.attr("data-state", "still");
+            topicsImage.attr("src", still);
             topicsDiv.append(ratingTag);
             topicsDiv.append(topicsImage);
             $("#gifsHere").prepend(topicsDiv);
